@@ -1,0 +1,150 @@
+<div class="container" *ngIf="product && !loading && !error">
+  <h2 class="mt-4">{{ product.name }}</h2>
+  <p>
+    <a class="mx-2 text-primary-lighter" routerLinkActive="active" routerLink="/">Home</a>
+    <a class="mx-2 text-primary-lighter" routerLinkActive="active" routerLink="/search">Auction</a>
+    <a class="mx-2 text-secondary">{{ product.name }}</a>
+  </p>
+
+  <div class="row my-5">
+    <div class="col-12 col-md-4 col-lg-3 text-center">
+      <img class="img-fluid d-inline-block"
+           [src]="product.photoSrc"
+           alt="{{ product.name }}"><!--{{ product.photo }}-->
+    </div>
+
+    <div class="col-12 col-md-8 col-lg-5 col-xl-5">
+      <h3 class="font-weight-bold">{{ product.name }}</h3>
+
+      <div class="my-3"> Starting bid: <span class="pl-3">{{ product.startingBid | currency:'GBP' }}</span></div>
+
+      <div class="my-3">
+        Last bid: <span style="font-size: 1.7em" class="text-primary font-weight-bold pl-2">
+              {{ product.price | currency:'GBP'   }}</span>
+      </div>
+
+      <div class="my-3"> Risk rating: <span class="pl-2">19.75%</span></div>
+
+      <h5 class="my-3 font-weight-normal" *ngIf="product.productStatus  == ProductStatus.SALE_PENDING ">
+        Event starts: <span class="text-secondary pl-3">{{ product.startDate | date:'dd:MM:yyyy' }}</span>
+      </h5>
+
+      <div class="my-3 font-weight-normal"
+           *ngIf="product.productStatus != ProductStatus.EXPIRED">
+        Bids: <span class="mx-2 text-info cursor-pointer"
+                    (click)="showBids(product)">{{ product.bidCount }}</span>
+      </div>
+      <h4 class="my-3 font-weight-normal"
+          *ngIf="currentTime >= product.startDate &&  currentTime <= product.endDate && product.productStatus == ProductStatus.FOR_SALE ">
+        Time Left: <span class="mx-2 text-info">{{ product.endDate | timeLeft : change }}</span>
+      </h4>
+      <h4 class="my-3 font-weight-normal"
+          *ngIf="currentTime < product.startDate && product.productStatus == ProductStatus.FOR_SALE ">
+        <span class="text-primary"> Event start: </span>
+        <span class="mx-2 text-info">{{ product.startDate  | timeLeft : change }}</span>
+      </h4>
+      <div *ngIf="product.productStatus  == ProductStatus.FOR_SALE &&  product.startDate > currentTime ">
+        Start at: <span class="mx-2 text-primary-lighter">{{product.startDate | date : 'HH:mm dd.MM.yyyy' }}</span>
+      </div>
+
+      <div class="text-danger">
+        {{errorMessage}}
+      </div>
+      <span class="text-danger" *ngIf="makeBidForm.invalid && makeBidForm.dirty">
+                   Please use only numbers
+                   <i class="md-icon material-icons" style="font-size: inherit">error</i>
+                   <br>
+                 </span>
+
+      <div class="row m-0"
+           *ngIf="product.productStatus == ProductStatus.FOR_SALE &&  product.startDate < currentTime && currentTime <= product.endDate">
+        <form class="col-7 p-0 form-inline flex-row flex-nowrap" [formGroup]="makeBidForm">
+          <label class="text-nowrap" for="next-bit">Your bit:</label>
+          <input type="text"
+                 id="next-bit"
+                 style="min-width: 20px"
+                 placeholder="Your bit"
+                 formControlName="bid"
+                 class="form-control mx-3 d-flex">
+        </form>
+        <div class="col-5 p-3">
+          <button class="btn btn-primary btn-block"
+                  [ngClass]="{ 'btn-outline-primary disabled': makeBidForm.invalid }"
+                  (click)="makeBit()">Make bid
+          </button>
+        </div>
+      </div>
+
+      <div class="row m-0"
+           *ngIf="product.productStatus == ProductStatus.FOR_SALE"> <!--&& currentTime <= product.endDate-->
+        <div class="col-7 p-0 form-inline">
+          Price: <span style="font-size: 1.8rem"
+                       class="text-info font-weight-bold ml-2">{{ product.buyOutPrice | currency:'GBP'}}</span>
+        </div>
+        <div class="col-5 p-3">
+          <button class="btn btn-outline-primary btn-block"
+                  (click)="buyOutProduct()">Buy out
+          </button>
+        </div>
+      </div>
+
+      <div class="row m-0"
+           *ngIf="product.productStatus == ProductStatus.FOR_SALE && currentTime >= product.endDate">
+        <div class="col-7 p-0 form-inline">
+          <h3 class="text-primary-lighter">Time out</h3>
+        </div>
+      </div>
+
+      <div class=""
+           *ngIf="product.productStatus == ProductStatus.SOLD">
+        <h3 class="text-primary-lighter">Sold</h3>
+      </div>
+
+      <div class=""
+           *ngIf="product.productStatus == ProductStatus.SALE_PENDING">
+        <h3 class="text-primary-lighter">Sale pending</h3>
+      </div>
+
+      <div class=""
+           *ngIf="product.productStatus == ProductStatus.PENDING">
+        <h3 class="text-primary-lighter">Pending</h3>
+      </div>
+
+      <div class=""
+           *ngIf="product.productStatus == ProductStatus.EXPIRED">
+        <h3 class="text-primary-lighter">Expired</h3>
+      </div>
+
+      <div class=""
+           *ngIf="product.productStatus == ProductStatus.OWNED">
+        <h3 class="text-primary-lighter">Owned</h3>
+      </div>
+
+      <div class=""
+           *ngIf="product.productStatus == ProductStatus.REJECTED">
+        <h3 class="text-danger">Rejected</h3>
+      </div>
+
+    </div>
+
+    <div class="col-12 col-md-12 col-lg-4 col-xl-4">
+      <div class="border border-grey p-3 h-100">
+        <h6>Description</h6>
+        {{ product.description }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="loading" style="min-height: 500px">
+  <div class="row">
+    <div class="col text-center">
+      <div style="font-size: 6rem; margin: 220px auto 0 auto;" class="loader-circle"></div>
+      <span>Loading</span>
+    </div>
+  </div>
+</div>
+
+<div class="p-3"></div>
+
+<afe-bids *ngIf="activeBids" [product]="activeProduct" (onClose)="onBidsHide($event)"></afe-bids>

@@ -1,0 +1,154 @@
+<div class="container">
+  <h2 class="mt-4">All clients</h2>
+  <p class="text-primary-lighter">Here you can manage clients</p>
+
+  <div class="row text-center" style="margin-bottom: -1px;">
+
+    <div class="col-3 col-md-2 p-0 px-sm-4 py-3 bg-white-hover cursor-pointer"
+         routerLink="/products"
+         routerLinkActive="active">
+      Products
+    </div>
+    <div class="col-3 p-0 col-md-2 bg-white px-sm-4 py-3 border-grey border cursor-pointer border-bottom-0 btn-link text-info">
+      All Clients
+    </div>
+    <div class="col-3 p-0 col-md-2 px-sm-4 py-3 bg-white-hover cursor-pointer" routerLink="/dictionary" routerLinkActive="active">
+      Dictionary
+    </div>
+    <div class="col-3 p-0 col-md-2 px-sm-4 py-3 bg-white-hover cursor-pointer"
+         routerLink="/settings"
+         routerLinkActive="active">
+      Settings
+    </div>
+  </div>
+
+  <div class="border-grey border row py-2 bg-white">
+    <div class="col-4 col-md-2 d-flex align-items-center justify-content-center">
+      <span class="cursor-pointer"
+            (click)="setActiveGroup(ClientGroup.Approve)"
+            [ngClass]="{ 'text-secondary' : activeGroup === ClientGroup.Approve }">Approve
+        <span>({{ _approveClient?.length }})</span>
+      </span>
+    </div>
+
+    <div class="col-4 col-md-2 d-flex align-items-center justify-content-center">
+      <span class="cursor-pointer"
+            (click)="setActiveGroup(ClientGroup.Active)"
+            [ngClass]="{ 'text-secondary' : activeGroup === ClientGroup.Active }">Active
+        <span>({{ _activeClient?.length }})</span>
+      </span>
+    </div>
+
+    <div class="col-4 col-md-2 d-flex align-items-center justify-content-center">
+      <span class="cursor-pointer"
+            (click)="setActiveGroup(ClientGroup.Hidden)"
+            [ngClass]="{ 'text-secondary' : activeGroup === ClientGroup.Hidden }">Hidden
+        <span>({{ _hiddenClient?.length }})</span>
+      </span>
+    </div>
+
+    <div class="col d-none d-md-block col-md-2"></div>
+
+    <div class="col bg-white">
+      <form class="form-inline rounded bg-white p-1 w-100" [formGroup]="searchForm">
+        <input type="text"
+               class="form-control badge-pill w-100"
+               (input)="search()"
+               formControlName="search"
+               placeholder="Search"
+               aria-label="Search">
+      </form>
+    </div>
+  </div>
+
+  <div class="row pt-5"
+       [hidden]="!activeItems || activeItems?.length === 0">
+    <div class="col">
+      <span class="cursor-pointer"
+            [ngClass]="{ 'text-secondary': sortBy === 'name' }"
+            (click)="sortWithDirSwitch('name')">User name</span></div>
+    <div class="col">
+      <span class="cursor-pointer"
+            [ngClass]="{ 'text-secondary': sortBy === 'email' }"
+            (click)="sortWithDirSwitch('email')">Email</span></div>
+    <div class="col">
+      <span class="cursor-pointer"
+            [ngClass]="{ 'text-secondary': sortBy === 'phoneNumber' }"
+            (click)="sortWithDirSwitch('phoneNumber')">Phone</span></div>
+    <div class="col"></div>
+  </div>
+
+  <div class="row border-grey border thumbnail bg-white rounded my-3 py-2" *ngFor="let product of activeItems">
+    <div class="col row p-0 m-0">
+      <div class="col-4 col-md-3 px-0 d-flex align-items-center">
+        <img class="img-fluid badge-pill"
+             style="min-width: 40px"
+             [src]="product.avatarSrc"
+             alt="Avatar">
+      </div>
+      <div class="col-8 px-0 d-flex align-items-center">
+        <a class="text-primary-lighter font-weight-light">{{ product.name }}</a>
+      </div>
+    </div>
+    <div class="col d-flex align-items-center">{{ product.email }}</div>
+    <div class="col d-flex align-items-center">{{ product.phoneNumber }}</div>
+    <div class="col d-flex align-items-center">
+      <div class="text-right">
+        <div class="loader-points_three" *ngIf="product._loading"></div>
+        <ng-container *ngIf="activeGroup === ClientGroup.Active">
+          <button class="btn btn-link"
+                  *ngIf="!product._loading"
+                  (click)="showRiskRating(product)">
+            <i class="material-icons">edit</i>  Risk rating ({{ product.atr }})
+          </button>
+          <button class="btn btn-link text-danger"
+                  *ngIf="!product._loading"
+                  (click)="hideClient(product)">
+            Hide client
+          </button>
+        </ng-container>
+        <ng-container *ngIf="activeGroup === ClientGroup.Hidden">
+          <button *ngIf="!product._loading"
+                  class="btn btn-link"
+                  (click)="rebornClient(product)">
+            Enable client
+          </button>
+        </ng-container>
+
+        <ng-container *ngIf="activeGroup === ClientGroup.Approve">
+          <button *ngIf="!product._loading"
+                  class="btn btn-link"
+                  (click)="activateClient(product)">
+            Approve client
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="activeItems === null" class="my-5 text-center w-100">
+    <div class="d-inline-block">
+      <div class="loader-circle" style="font-size: 3rem;"></div>
+      Loading...
+    </div>
+  </div>
+
+
+  <div class="w-100 text-center py-5">
+    <pagination [boundaryLinks]="true"
+                class=""
+                style="margin: 0 auto; display: inline-block"
+                [hidden]="availableItems?.length < itemsPerPage"
+                [totalItems]="availableItems?.length"
+                [maxSize]="5"
+                [itemsPerPage]="itemsPerPage"
+                (pageChanged)="pageChanged($event)"
+                previousText="&lsaquo;"
+                nextText="&rsaquo;"
+                firstText="&laquo;"
+                lastText="&raquo;">
+    </pagination>
+  </div>
+
+</div>
+<afe-risk-rating *ngIf="activeRatingRisk" [client]="activeClient" (onClose)="onRiskRatingHide()"></afe-risk-rating>

@@ -1,0 +1,169 @@
+<div class="container">
+  <h2 class="mt-4">Products</h2>
+  <p class="text-primary-lighter">Here you can manage all users products</p>
+
+  <div class="row text-center" style="margin-bottom: -1px;">
+
+    <div class="col-3 col-md-2 bg-white p-0 px-sm-4 py-3 border-grey border cursor-pointer border-bottom-0 btn-link text-info">
+      Products
+    </div>
+    <div class="col-3 col-md-2 px-sm-4 p-0 py-3 bg-white-hover cursor-pointer" routerLink="/clients" routerLinkActive="active">
+      All Clients
+    </div>
+    <div class="col-3 col-md-2 px-sm-4 p-0 py-3 bg-white-hover cursor-pointer"
+         routerLink="/dictionary"
+         routerLinkActive="active">
+      Dictionary
+    </div>
+    <div class="col-3 col-md-2 p-0 px-sm-4 py-3 bg-white-hover cursor-pointer"
+         routerLink="/settings"
+         routerLinkActive="active">
+      Settings
+    </div>
+  </div>
+
+  <div class="border-grey border row py-2 bg-white">
+
+    <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+      <span class="cursor-pointer"
+            (click)="setActiveGroup(ProductGroup.PENDING)"
+            [ngClass]="{ 'text-secondary' : activeGroup === ProductGroup.PENDING }">Pending
+        <span>({{ _pandingProducts?.length }})</span>
+      </span>
+    </div>
+
+    <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+      <span class="cursor-pointer"
+            (click)="setActiveGroup(ProductGroup.SALE)"
+            [ngClass]="{ 'text-secondary' : activeGroup === ProductGroup.SALE }">Sale pending
+        <span>({{ _saleProducts?.length }})</span>
+      </span>
+    </div>
+    <div class="d-none d-md-block col-md-4"></div>
+
+    <div class="col-12 col-md-4 bg-white">
+      <form class="form-inline rounded bg-white p-1 w-100" [formGroup]="searchForm">
+        <input type="text"
+               class="form-control badge-pill w-100"
+               (input)="search()"
+               formControlName="search"
+               placeholder="Search"
+               aria-label="Search">
+      </form>
+    </div>
+  </div>
+
+  <div class="row  pt-5"
+       [hidden]="!activeItems || activeItems?.length === 0">
+    <div class="col-2">
+      <span class="cursor-pointer"
+            [ngClass]="{ 'text-secondary': sortBy === 'startDate' }"
+            (click)="sortWithDirSwitch('startDate')">Date</span></div>
+    <div class="col-2">
+      <span class="cursor-pointer"
+            [ngClass]="{ 'text-secondary': sortBy === 'productOwnerFullName' }"
+            (click)="sortWithDirSwitch('productOwnerFullName')">User name</span></div>
+    <div class="col-3">
+      <span class="cursor-pointer"
+            [ngClass]="{ 'text-secondary': sortBy === 'name' }"
+            (click)="sortWithDirSwitch('name')">Name</span></div>
+    <div class="col">
+      <span class="cursor-pointer"
+            [ngClass]="{ 'text-secondary': sortBy === 'phoneNumber' }"
+            (click)="sortWithDirSwitch('phoneNumber')">Price</span></div>
+    <div class="col"></div>
+  </div>
+
+  <div class="row border-grey border thumbnail bg-white rounded my-3 py-2" *ngFor="let product of activeItems">
+    <div class="col-12 col-sm-6 col-md-2 d-flex align-items-center">
+      <span class="text-primary-lighter font-weight-light">{{ product.startDate | date:'HH:mm dd.MM.yyyy' }}</span>
+    </div>
+    <div class="col-12 col-sm-6 col-md-2 d-flex align-items-center">
+      <span class="text-primary-lighter font-weight-light">{{ product.productOwnerFullName}}</span>
+    </div>
+    <div class="col-12 col-md-4 row my-2 mx-0 p-0">
+      <div class="col-4 col-lg-3">
+        <img class="img-fluid d-inline-block"
+             [src]="product.photoSrc"
+             alt="{{ product.name }}"></div>
+
+      <div class="col-8">
+        <h5 style="color:#73889E">{{ product.name }}</h5>
+
+        <div>
+          <button class="btn btn-link p-2"
+                  routerLinkActive="active"
+                  routerLink="/lot/{{product.productId}}"><i class="material-icons">description</i>View
+          </button>
+
+          <button class="btn btn-link p-2"
+                  *ngIf="product.productStatus == ProductStatus.SOLD"
+                  (click)="showBids(product)">
+            <i class="material-icons">remove_red_eye</i> Bids <span>({{ product.startingBid }})</span>
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-md-2 d-flex align-items-center">
+      <h4>{{ product.startingBid | currency:'GBP' }}</h4>
+    </div>
+
+    <div class="col-md-2 d-flex align-items-center">
+      <div class="text-right">
+        <button class="btn btn-link"
+                *ngIf="!product._loading && product.productStatus == ProductStatus.PENDING"
+                (click)="approveProduct(product)">
+          Approve
+        </button>
+
+        <button class="btn btn-link text-danger"
+                *ngIf="!product._loading && product.productStatus == ProductStatus.PENDING"
+                (click)="rejectProduct(product)">
+          Reject
+        </button>
+
+        <button class="btn btn-link"
+                *ngIf="!product._loading && product.productStatus == ProductStatus.SALE_PENDING"
+                (click)="approveSale(product)">
+          Approve Sale
+        </button>
+
+      <!--  <button class="btn btn-link text-danger"
+                *ngIf="!product._loading && product.productStatus == ProductStatus.SALE_PENDING"
+                (click)="rejectSale(product)">
+          Reject Sale
+        </button>-->
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="activeItems === null" class="my-5 text-center w-100">
+    <div class="d-inline-block">
+      <div class="loader-circle" style="font-size: 3rem;"></div>
+      Loading...
+    </div>
+  </div>
+
+  <div class="w-100 text-center py-5">
+    <pagination [boundaryLinks]="true"
+                class=""
+                style="margin: 0 auto; display: inline-block"
+                [hidden]="availableItems?.length < itemsPerPage"
+                [totalItems]="availableItems?.length"
+                [maxSize]="5"
+                [itemsPerPage]="itemsPerPage"
+                (pageChanged)="pageChanged($event)"
+                previousText="&lsaquo;"
+                nextText="&rsaquo;"
+                firstText="&laquo;"
+                lastText="&raquo;">
+    </pagination>
+  </div>
+
+</div>
+
+<afe-bids *ngIf="activeBids" [product]="activeProduct" (onClose)="onBidsHide($event)"></afe-bids>
+

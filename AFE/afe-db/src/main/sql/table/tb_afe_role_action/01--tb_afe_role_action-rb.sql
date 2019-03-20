@@ -1,0 +1,1 @@
+DROP TABLE tb_afe_role_action;

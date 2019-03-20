@@ -1,0 +1,190 @@
+<div style="background: url('./assets/images/background.png'); background-size: cover">
+  <div style="position: absolute; top:0; z-index: -1; right:0; bottom:0; left:0; background: #a6a7a6;"></div>
+  <br>
+  <br>
+  <section class="container p-5">
+    <h1 class="text-uppercase text-white">Alternative <br> finance exchange</h1>
+    <p class="text-white py-3">Excepteur sint occaecat cupidatat non proident </p>
+
+    <form class="row my-1 mx-0 form-inline w-100 rounded bg-white p-1" [formGroup]="searchForm">
+      <div class="col p-0">
+        <input type="text"
+               class="form-control w-100"
+               formControlName="search"
+               placeholder="Search"
+               aria-label="Search">
+      </div>
+      <button class="btn btn-primary col-auto" (click)="search()">Search</button>
+    </form>
+
+    <div class="text-white font-weight-light pt-2 pb-5">
+      <span class=""> Trending searches </span>
+      <a class="text-white font-weight-bold cursor-pointer"
+         routerLink="/search"
+         [queryParams]="{text: 'business'}"
+         routerLinkActive="active">business</a>,
+      <a class="text-white font-weight-bold cursor-pointer"
+         routerLink="/search"
+         [queryParams]="{text: 'computer'}"
+         routerLinkActive="active">computer</a>,
+      <a class="text-white font-weight-bold cursor-pointer"
+         routerLink="/search"
+         [queryParams]="{text: 'house'}"
+         routerLinkActive="active">house</a>
+    </div>
+  </section>
+  <br>
+  <br>
+</div>
+
+<div class="bg-white">
+  <section class="container py-5">
+
+    <h2 class="mb-1">Latest</h2>
+    <div class="mt-1 d-flex justify-content-between">
+      <span class="text-primary-lighter">View the latest lots on sale!</span>
+      <a class=""
+         routerLink="/search"
+         [queryParams]="{sort: 'startDate'}"
+         routerLinkActive="active">View all<i class="material-icons">keyboard_arrow_right</i></a>
+    </div>
+
+    <div class="row mt-3" style="min-height: 430px">
+      <div *ngIf="latestProduct == null" class="col text-center">
+        <div style="font-size: 6rem; margin: 220px auto 0 auto;" class="loader-circle"></div>
+      </div>
+      <div class="col-6 col-sm-4 col-lg-3 col-xl-2 p-2 cursor-pointer"
+           routerLinkActive="active"
+           routerLink="/lot/{{product.productId}}"
+           *ngFor="let product of latestProduct">
+        <div class="border-grey border thumbnail rounded text-center p-2 h-100">
+          <h5 class="mt-3"
+              style="color:#73889E; white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">
+            {{ product.name }}
+          </h5>
+          <span style="color: #CAD2DA"
+                class="text-primary-lighter font-weight-light pt-2">
+            {{ product.startDate | date:'HH:mm dd.MM.yyyy' }}
+          </span>
+          <h3 class="text-primary m-2">{{ product.startingBid | currency:'GBP' }}</h3>
+          <div class="col-12 px-4 py-2">
+            <button class="btn btn-outline-primary w-100 font-weight-bold"
+                    (click)="makeBid(product.productId)">Bid
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="mt-5 mb-1">Hot lots</h2>
+    <div class="mt-1 d-flex justify-content-between">
+      <span class="text-primary-lighter">View lots with the highest bid rate!</span>
+      <a         routerLink="/search"
+         [queryParams]="{sort: 'startingBid'}"
+         routerLinkActive="active">View all<i class="material-icons">keyboard_arrow_right</i></a>
+    </div>
+
+    <div class="row mt-3" style="min-height: 430px">
+      <div *ngIf="hottestProduct == null" class="col text-center">
+        <div style="font-size: 6rem; margin: 220px auto 0 auto;" class="loader-circle"></div>
+      </div>
+      <div class="col-6 col-sm-4 col-lg-3 col-xl-2 p-2 cursor-pointer"
+           style="overflow: hidden"
+           routerLinkActive="active"
+           routerLink="/lot/{{product.productId}}"
+           *ngFor="let product of hottestProduct">
+        <div class="border-grey border thumbnail rounded text-center p-2 h-100">
+          <h5 class="mt-3"
+              style="color:#73889E; white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">
+            {{ product.name }}
+          </h5>
+          <span style="color: #CAD2DA"
+                class="text-primary-lighter font-weight-light pt-2">
+            {{ product.startDate | date:'HH:mm dd.MM.yyyy' }}
+          </span>
+          <h3 class="text-primary m-2">{{ product.startingBid | currency:'GBP' }}</h3>
+          <div class="col-12 px-4 py-2">
+            <button class="btn btn-outline-primary w-100 font-weight-bold"
+                   (click)="makeBid(product.productId)">Bid
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div style="background: #F1F1F1">
+  <section class="container py-5 text-center">
+    <h2>Peer To Peer</h2>
+    <p class="w-100 text-primary-lighter">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+      deserunt </p>
+    <div class="my-5">
+      <img class="img-fluid d-inline-block" src="./assets/images/peer_to_peer.png" alt="Peer to peer">
+    </div>
+    <div class="w-100 text-center">
+      <button class="btn btn-primary px-4 my-4"
+              routerLinkActive="active"
+              routerLink="/registration">Let's try
+      </button>
+    </div>
+  </section>
+</div>
+
+<div class="bg-white">
+  <section class="container py-5">
+    <h2 class="text-center">CrowdFunding</h2>
+    <p class="w-100 text-primary-lighter text-center">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+      officia
+      deserunt </p>
+
+    <div class="row m-5">
+      <div class="col-12 col-md-6">
+        <img class="img-fluid d-inline-block float-right" src="./assets/images/cword.png" alt="Cword">
+      </div>
+      <div class="col-12 col-md-6">
+        <ul class="list-unstyled">
+          <li class="my-4 font-weight-bold"><i class="md-icon material-icons mr-3">check</i>Lorem ipsum</li>
+          <li class="my-4 font-weight-bold"><i class="md-icon material-icons mr-3">check</i>Dolor sit amet</li>
+          <li class="my-4 font-weight-bold"><i class="md-icon material-icons mr-3">check</i>Consectetur adipisicin</li>
+          <li class="my-4 font-weight-bold"><i class="md-icon material-icons mr-3">check</i>Sed do eiusmo</li>
+          <li class="my-4 font-weight-bold"><i class="md-icon material-icons mr-3">check</i>Tempor incididunt</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="w-100 text-center">
+      <button class="btn btn-primary px-4 my-4"
+              routerLinkActive="active"
+              routerLink="/registration">Let's try
+      </button>
+    </div>
+  </section>
+</div>
+
+<div style="background: #F1F1F1">
+  <section class="container pt-5">
+    <div class="row pt-5 mt-5">
+      <div class="col-12 col-md-4 p-5 text-center">
+        <img class="img-fluid d-inline-block w-75" src="./assets/images/start_saving.png" alt="Saving">
+      </div>
+      <div class="col-12 col-md-8">
+        <h2>Start your saving account right now! Save your future!</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+          incididunt ut ero labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+          ullamco.</p>
+
+        <div class="w-100 my-4">
+          <button class="btn btn-outline-primary px-5 mx-2"
+                  routerLinkActive="active"
+                  routerLink="/lets-try">More</button>
+          <button class="btn btn-primary px-4 mx-2"
+                  routerLinkActive="active"
+                  routerLink="/registration">Let's try
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mt-5 p-5"></div>
+  </section>
+</div>

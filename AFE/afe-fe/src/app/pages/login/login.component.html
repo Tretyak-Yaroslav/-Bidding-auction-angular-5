@@ -1,0 +1,83 @@
+<div class="container">
+  <h2 class="mt-4">Log-in</h2>
+  <p class="text-primary-lighter">Here you can log into your account</p>
+
+  <h3 class="mt-5">Please enter the following</h3>
+
+  <form [formGroup]="loginForm">
+    <div class="row">
+
+      <div class="col-12 col-md-6">
+        <div class="md-input-group">
+          <input formControlName="email"
+                 id="email"
+                 type="text"
+                 required
+                 [ngClass]="{ 'error': (email.invalid && email.dirty) }">
+          <label class="w-100" for="email">Email
+            <span *ngIf="email.invalid && email.dirty" class="text-danger" style="position: absolute; top:0; right: 0;">
+            Required to fill
+              <i class="md-icon material-icons"
+                 style="font-size: inherit">error</i></span>
+          </label>
+          <div class="md-bar"></div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <div class="md-input-group md-icon-after">
+          <input formControlName="password"
+                 id="password"
+                 #passwordRef
+                 type="password"
+                 required
+                 [ngClass]="{ 'error': (password.invalid && password.dirty) }">
+          <i class="md-icon icon-after material-icons md-24 cursor-pointer" id="password_showicon"
+             (click)="toggleVisibility(passwordRef)">{{ passwordIcon }}</i>
+          <label class="w-100" for="password">Password
+            <span *ngIf="password.invalid && password.dirty"
+                  class="text-danger"
+                  style="position: absolute; top:0; right: 0;">
+            Required to fill
+              <i class="md-icon material-icons"
+                 style="font-size: inherit">error</i></span>
+          </label>
+          <div class="md-bar"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row mt-5">
+      <div class="col-12 col-sm-6 text-center">
+        <!--  <div>
+            <input id="remember" type="checkbox">
+            <label for="remember" class="btn-link ml-2">Keep me logged-in</label>
+          </div>-->
+        <div *ngIf="loading" class="text-primary loader-points_three" style="margin: 0 auto;"></div>
+        <p *ngIf="errorMessage" class="text-danger">
+         {{ errorMessage }}
+        </p>
+
+      </div>
+
+      <div class="col-12 col-sm-6 text-right">
+        <button class="btn btn-primary px-5"
+                [disabled]="loading ? 'disabled': null"
+                [ngClass]="{ 'btn-outline-primary disabled': loginForm.invalid }"
+                (click)="login()">Log-in
+        </button>
+      </div>
+
+    </div>
+
+    <div>
+      <h5 class="text-center my-5 text-primary-lighter font-weight-normal">Still do not have an account?
+        <a class="ml-3 font-weight-bold"
+              routerLinkActive="active"
+              routerLink="/registration">Sign Up</a>
+      </h5>
+    </div>
+    <br>
+  </form>
+</div>

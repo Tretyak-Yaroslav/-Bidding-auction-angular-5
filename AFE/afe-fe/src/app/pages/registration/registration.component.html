@@ -1,0 +1,132 @@
+<div class="container">
+  <h2 class="mt-4">Registration</h2>
+  <p class="text-primary-lighter">Here you can create your account</p>
+
+  <h3 class="mt-5">Personal information</h3>
+
+  <form [formGroup]="registrationForm">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="md-input-group">
+          <input formControlName="fullName"
+                 id="fullName"
+                 type="text"
+                 required
+                 [ngClass]="{ 'error': (fullName.invalid && fullName.dirty) }">
+          <label class="w-100" for="fullName">Full Name
+            <span *ngIf="fullName.invalid && fullName.dirty"
+                  class="text-danger"
+                  style="position: absolute; top:0; right: 0;">
+            Required to fill
+              <i class="md-icon material-icons"
+                 style="font-size: inherit">error</i></span>
+          </label>
+          <div class="md-bar"></div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="md-input-group">
+          <input id="email"
+                 formControlName="email"
+                 type="text"
+                 required
+                 [ngClass]="{ 'error': (email.invalid && email.dirty) }">
+          <label class="w-100" for="email">Email
+            <span *ngIf="email.invalid && email.dirty && email.errors" class="text-danger text-right"
+                  style="position: absolute; top:0; right: 0; height: 1.5em; overflow-y: hidden">
+                 <span *ngIf="email.errors.required != null"> Required to fill <i class="md-icon material-icons"
+                                                                                  style="font-size: inherit">error</i><br></span>
+                 <span *ngIf="email.errors.email != null"> Not correct Email <br></span>
+             </span></label>
+          <div class="md-bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="md-input-group md-icon-after">
+          <input id="password"
+                 formControlName="password"
+                 type="password"
+                 #passwordRef
+                 required
+                 [ngClass]="{ 'error': (password.invalid && password.dirty) }">
+          <i class="md-icon icon-after material-icons md-24 cursor-pointer"
+             (click)="toggleVisibility(passwordRef)">
+            {{ passwordRef.type === 'text' ? 'visibility_off' : 'visibility' }}</i>
+          <label class="w-100" for="password">Password
+            <span *ngIf="password.invalid && password.dirty"
+                  class="text-danger"
+                  style="position: absolute; top:0; right: 0;">
+                 Required to fill
+              <i class="md-icon material-icons"
+                 style="font-size: inherit">error</i></span>
+          </label>
+          <div class="md-bar"></div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <div class="md-input-group md-icon-after">
+          <input id="confirmPassword"
+                 formControlName="confirmPassword"
+                 type="password"
+                 #confirmPasswordRef
+                 required
+                 [ngClass]="{ 'error': (confirmPassword.invalid && confirmPassword.dirty) }">
+
+          <i class="md-icon icon-after material-icons md-24 cursor-pointer"
+             (click)="toggleVisibility(confirmPasswordRef)">
+            {{ confirmPasswordRef.type === 'text' ? 'visibility_off' : 'visibility' }}</i>
+          <label class="w-100" for="confirmPassword">Confirm password
+            <span *ngIf="confirmPassword.dirty"
+                  class="text-danger text-right"
+                  style="position: absolute; top:0; right: 0; height: 1.5em; overflow-y: hidden">
+           <span *ngIf="confirmPassword?.errors?.required != null">
+             Required to fill<i class="md-icon material-icons" style="font-size: inherit">error</i><br></span>
+            <span *ngIf="registrationForm?.errors?.passwordsDifferent != null">
+              Passwords are different<i class="md-icon material-icons" style="font-size: inherit">error</i><br></span>
+            </span></label>
+          <div class="md-bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row my-5">
+      <div class="col-12 col-md-6 py-2">
+        <div class="mb-3">
+          <input id="consent"
+                 formControlName="consent"
+                 type="checkbox">
+          <label for="consent"
+                 [ngClass]="{ 'text-danger': (consent.invalid && consent.touched) }"
+                 class="ml-2 cursor-pointer text-info">
+            I agree to the
+            <a target="_blank"
+               class="font-weight-bold text-secondary"
+               routerLink="/privacy-policy"
+               routerLinkActive="active">Terms and Conditions</a>
+          </label>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 text-right row no-gutters">
+        <div class="col-12 col-sm-8 pr-3 py-2">
+          <div *ngIf="loading" class="text-primary loader-points_three" style="margin: 0 auto;"></div>
+          <span *ngIf="errorMessage" class="text-danger">
+          {{ errorMessage }}
+        </span>
+        </div>
+        <div class="col-6 offset-3 offset-sm-0 col-sm-4 py-2">
+          <button class="btn btn-primary btn-block"
+                  [disabled]="loading ? 'disabled': null"
+                  [ngClass]="{ 'btn-outline-primary disabled': registrationForm.invalid }"
+                  (click)="submit()">Register
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </form>
+</div>

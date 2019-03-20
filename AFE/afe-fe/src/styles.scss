@@ -1,0 +1,7 @@
+/* You can add global styles to this file, and also import other style files */
+// Import Bootstrap source files
+@import "styles/main";
+
+// @import "~ng-pick-datetime/assets/style/picker.min.css";
+$alert-top:                  15%;
+@import './app/modules/alert/alert.scss'

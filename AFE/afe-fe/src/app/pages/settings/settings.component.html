@@ -1,0 +1,313 @@
+<div class="container">
+  <h2 class="mt-4">Settings</h2>
+  <p class="text-primary-lighter">Here you can change your personal information</p>
+
+  <div class="row text-center" style="margin-bottom: -2px; min-height: 60px">
+
+    <ng-container *ngIf="manager === false">
+      <div class="col-4 col-md-2 px-4 py-3 bg-white-hover cursor-pointer"
+           routerLink="/publications"
+           routerLinkActive="active">
+        Publications
+      </div>
+      <div class="col-4 col-md-2 px-4 py-3 bg-white-hover cursor-pointer"
+           routerLink="/acquired"
+           routerLinkActive="active">
+        History
+      </div>
+      <div class="col-4 col-md-2 bg-white px-4 py-3 border-grey border border-bottom-0 text-info">
+        Settings
+      </div>
+    </ng-container>
+    <ng-container *ngIf="manager === true">
+      <div class="col-3 col-md-2 p-0 px-sm-4 py-3 bg-white-hover cursor-pointer"
+           routerLink="/products"
+           routerLinkActive="active">
+        Products
+      </div>
+      <div class="col-3 col-md-2 p-0 px-sm-4 py-3 bg-white-hover cursor-pointer"
+           routerLink="/clients"
+           routerLinkActive="active">
+        All Clients
+      </div>
+      <div class="col-3 col-md-2 p-0 px-sm-4 py-3 bg-white-hover cursor-pointer"
+           routerLink="/dictionary"
+           routerLinkActive="active">
+        Dictionary
+      </div>
+      <div class="col-3 col-md-2 p-0 bg-white px-sm-4 py-3 border-grey border border-bottom-0 text-info">
+        Settings
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="border-grey border row py-2 bg-white" style="min-height: 54px">
+    <div class="col"></div>
+    <div class="col"></div>
+    <div class="col bg-white">
+      <!--  <form class="form-inline rounded bg-white p-1 w-100" [formGroup]="searchForm">
+          <input type="text"
+                 class="form-control badge-pill w-100"
+                 (input)="search()"
+                 formControlName="search"
+                 placeholder="Search"
+                 aria-label="Search">
+        </form>-->
+    </div>
+  </div>
+
+
+  <div class="border-grey border row py-4 bg-white my-4" [formGroup]="userInfoForm">
+    <div class="col-12 col-sm-4 col-md-3 col-lg-3 text-center">
+      <img class="img-fluid d-inline-block w-75 my-2"
+           style="max-width: 150px; margin : 0 auto; min-height: 150px"
+           [src]="clientAvatar"
+           alt="Avatar"><br>
+      <span class="btn-link my-2 cursor-pointer" (click)="fileLoad.click()">Change image</span>
+      <input class="btn-link cursor-pointer text-info"
+             type="file"
+             name="avatar"
+             #fileLoad
+             accept="image/jpeg, image/png"
+             style="visibility:hidden"
+             id="fileToUpload"
+             (change)="updateAvatar($event)">
+
+    </div>
+    <div class="col-12 col-sm-8 col-md-6 col-lg-6">
+      <h5>Personal information</h5>
+      <div></div>
+      <div>
+
+        <div class="md-input-group">
+          <input formControlName="name"
+                 id="name"
+                 type="text"
+                 value="{{ client.name }}"
+                 required
+                 [ngClass]="{ 'error': (name.invalid && name.dirty) }">
+          <label class="w-100" for="name">Full Name
+            <span *ngIf="name.invalid && name.dirty"
+                  class="text-danger"
+                  style="position: absolute; top:0; right: 0;">
+            Required to fill
+              <i class="md-icon material-icons"
+                 style="font-size: inherit">error</i></span>
+          </label>
+          <div class="md-bar"></div>
+        </div>
+
+        <div class="md-input-group">
+          <input formControlName="phoneNumber"
+                 id="phone"
+                 type="text"
+                 value="{{ client.phoneNumber }}"
+                 required
+                 [ngClass]="{ 'error': (phone.invalid && phone.dirty) }">
+          <label class="w-100" for="phone">Phone
+            <span *ngIf="phone.invalid && phone.dirty"
+                  class="text-danger"
+                  style="position: absolute; top:0; right: 0;">
+            Required to fill
+              <i class="md-icon material-icons"
+                 style="font-size: inherit">error</i></span>
+          </label>
+          <div class="md-bar"></div>
+        </div>
+
+        <div class="md-input-group">
+          <input formControlName="birthday"
+                 id="birth"
+                 [owlDateTime]="dt2"
+                 [owlDateTimeTrigger]="dt2"
+                 type="text"
+                 required
+                 [ngClass]="{ error: (birth.invalid && birth.dirty), valid: (birth.valid) }">
+          <owl-date-time #dt2 [pickerType]="'calendar'" [pickerMode]="'dialog'"></owl-date-time>
+          <label class="w-100" for="birth">Birthday
+            <span *ngIf="birth.invalid && birth.dirty"
+                  class="text-danger"
+                  style="position: absolute; top:0; right: 0;">
+            Required to fill
+              <i class="md-icon material-icons"
+                 style="font-size: inherit">error</i></span>
+          </label>
+          <div class="md-bar"></div>
+        </div>
+
+        <div class="mt-3">
+          <button class="btn btn-primary px-5 m-1"
+                  [ngClass]="{ 'btn-outline-primary disabled': (userInfoForm.invalid || userInfoForm.pristine) }"
+                  (click)="updateUserInfo()">Save
+          </button>
+          <button class="btn btn-link px-5 m-1"
+                  (click)="resetUserInfo()"
+                  [hidden]="!(userInfoForm.dirty)">Cancel
+          </button>
+
+          <div class="d-inline-block text-danger">{{ errorUserMessage }}</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="border-grey border row py-4 bg-white my-4" *afePermission="Permission.CLIENT_SHOW_RISK_RANKING_ATR">
+    <div class="col-12 col-md-7">
+
+      <h5 class="px-4">Risk Rating</h5>
+
+      <div class="row py-5 d-flex text-nowrap text-center no-gutters">
+        <div class="col" style="color: #8A9CAE" [ngClass]="{ 'text-info': client.atr >= 1 && client.atr < 20}">
+          <i style="font-size: 4rem" class="material-icons">sentiment_very_satisfied</i><br>Very
+          low
+        </div>
+        <div class="col" style="color: #8A9CAE" [ngClass]="{ 'text-info': client.atr >= 20 && client.atr < 40}">
+          <i style="font-size: 4rem" class="material-icons">sentiment_satisfied</i><br>Low
+        </div>
+        <div class="col" style="color: #8A9CAE" [ngClass]="{ 'text-info': client.atr >= 40 && client.atr < 60}">
+          <i style="font-size: 4rem" class="material-icons">sentiment_neutral</i><br>Medium
+        </div>
+        <div class="col" style="color: #8A9CAE" [ngClass]="{ 'text-info': client.atr >= 60 && client.atr < 80}">
+          <i style="font-size: 4rem" class="material-icons">sentiment_dissatisfied</i><br>High
+        </div>
+        <div class="col" style="color: #8A9CAE" [ngClass]="{ 'text-info': client.atr >= 80}">
+          <i style="font-size: 4rem" class="material-icons">sentiment_very_dissatisfied</i><br>Very
+          High
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between w-100 px-3">
+        <div class="d-flex align-items-center">
+          You rating is:
+          <span *ngIf="client.atr" class="ml-3" style="font-size: 2rem">{{ client.atr}}%</span>
+          <span *ngIf="!client.atr && client.questionnaire != null" class="ml-3 text-primary-lighter" style="font-size: 1.2rem">processed by the manager...</span>
+          <span *ngIf="client.questionnaire === null" class="ml-3 text-primary-lighter" style="font-size: 1.2rem">You have not pass yet :(</span>
+        </div>
+        <div class="d-flex align-items-center text-right">
+          <a style="font-size: 1.4rem"
+             class="text-info font-weight-bold"
+             routerLink="/questionnaire"
+             routerLinkActive="active">Change it</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="border-grey border row py-4 bg-white my-4" [formGroup]="userInfoForm">
+     <div class="col-12 col-md-7">
+
+       <div class="md-input-group">
+         <input formControlName="email"
+                id="email"
+                type="text"
+                required
+                [ngClass]="{ 'error': (email.invalid && email.dirty) }">
+         <label class="w-100" for="email">Email
+           <span *ngIf="email.invalid && email.dirty"
+                 class="text-danger"
+                 style="position: absolute; top:0; right: 0;">
+             Required to fill
+               <i class="md-icon material-icons"
+                  style="font-size: inherit">error</i></span>
+         </label>
+         <div class="md-bar"></div>
+       </div>
+
+       <div class="mt-3">
+         <button class="btn btn-primary px-5 m-1">Save</button>
+         <button class="btn btn-link px-5 m-1">Cancel</button>
+       </div>
+     </div>
+   </div>
+ -->
+  <div class="border-grey border row py-4 bg-white my-4" [formGroup]="passwordForm">
+
+    <div class="col-12 col-md-7 px-3 px-md-5">
+      <h5 class="">Change password</h5>
+
+      <div class="md-input-group md-icon-after">
+        <input id="passwordOld"
+               formControlName="passwordOld"
+               type="password"
+               #passwordOldRef
+               required
+               [ngClass]="{ 'error': (passwordOld.invalid && passwordOld.dirty) }">
+        <i class="md-icon icon-after material-icons md-24 cursor-pointer"
+           (click)="toggleVisibility(passwordOldRef)">
+          {{ passwordOldRef.type === 'text' ? 'visibility_off' : 'visibility' }}</i>
+        <label class="w-100" for="passwordOld">Old password
+          <span *ngIf="passwordOld.invalid && passwordOld.dirty"
+                class="text-danger"
+                style="position: absolute; top:0; right: 0;">
+                 Required to fill
+              <i class="md-icon material-icons"
+                 style="font-size: inherit">error</i></span>
+        </label>
+        <div class="md-bar"></div>
+      </div>
+
+      <div class="md-input-group md-icon-after">
+        <input id="password"
+               formControlName="password"
+               type="password"
+               #passwordRef
+               required
+               [ngClass]="{ 'error': (password.invalid && password.dirty) }">
+        <i class="md-icon icon-after material-icons md-24 cursor-pointer"
+           (click)="toggleVisibility(passwordRef)">
+          {{ passwordRef.type === 'text' ? 'visibility_off' : 'visibility' }}</i>
+        <label class="w-100" for="password">New password
+          <span *ngIf="password.invalid && password.dirty"
+                class="text-danger"
+                style="position: absolute; top:0; right: 0;">
+                 Required to fill
+              <i class="md-icon material-icons"
+                 style="font-size: inherit">error</i></span>
+        </label>
+        <div class="md-bar"></div>
+      </div>
+
+      <div class="md-input-group md-icon-after">
+        <input id="confirmPassword"
+               formControlName="confirmPassword"
+               type="password"
+               #confirmPasswordRef
+               required
+               [ngClass]="{ 'error': (confirmPassword.invalid && confirmPassword.dirty) }">
+
+        <i class="md-icon icon-after material-icons md-24 cursor-pointer"
+           (click)="toggleVisibility(confirmPasswordRef)">
+          {{ confirmPasswordRef.type === 'text' ? 'visibility_off' : 'visibility' }}</i>
+        <label class="w-100" for="confirmPassword">Confirm password
+          <span *ngIf="confirmPassword.dirty"
+                class="text-danger text-right"
+                style="position: absolute; top:0; right: 0; height: 1.5em; overflow-y: hidden">
+           <span *ngIf="confirmPassword?.errors?.required != null">
+             Required to fill<i class="md-icon material-icons" style="font-size: inherit">error</i><br></span>
+            <span *ngIf="passwordForm?.errors?.passwordsDifferent != null">
+              Passwords are different<i class="md-icon material-icons" style="font-size: inherit">error</i><br></span>
+            </span></label>
+        <div class="md-bar"></div>
+      </div>
+
+      <div class="mt-3">
+        <button class="btn btn-primary px-5 m-1"
+                [ngClass]="{ 'btn-outline-primary disabled': passwordForm.invalid }"
+                (click)="updatePassword()">Save
+        </button>
+        <button class="btn btn-link px-5 m-1"
+                (click)="resetPassword()"
+                [hidden]="!(passwordForm.dirty)">Cancel
+        </button>
+        <div class="d-inline-block text-danger">
+          {{ errorPasswordMessage }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="my-5"></div>
+  <br>
+
+</div>

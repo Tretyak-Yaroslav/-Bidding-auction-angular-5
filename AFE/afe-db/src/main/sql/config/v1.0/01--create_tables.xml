@@ -1,0 +1,111 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="01--tb_afe_client" author="tereshin" context="dev, prod">
+        <sqlFile path="../../table/tb_afe_client/01--tb_afe_client.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        <rollback>
+            <sqlFile path="../../table/tb_afe_client/01--tb_afe_client-rb.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="02--tb_afe_client" author="tereshin" context="dev">
+        <sqlFile path="../../table/tb_afe_client/02--TEST--tb_afe_client.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        <rollback>
+            <sqlFile path="../../table/tb_afe_client/02--TEST--tb_afe_client-rb.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="03--tb_afe_platform" author="tereshin" context="dev, prod">
+        <sqlFile path="../../table/tb_afe_platform/01--tb_afe_platform.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        <rollback>
+            <sqlFile path="../../table/tb_afe_platform/01--tb_afe_platform-rb.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="04--tb_afe_platform" author="tereshin" context="dev">
+        <sqlFile path="../../table/tb_afe_platform/02--TEST--tb_afe_platform.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        <rollback>
+            <sqlFile path="../../table/tb_afe_platform/02--TEST--tb_afe_platform-rb.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="05--tb_afe_product" author="tereshin" context="dev, prod">
+        <sqlFile path="../../table/tb_afe_product/01--tb_afe_product.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        <rollback>
+            <sqlFile path="../../table/tb_afe_product/01--tb_afe_product-rb.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="06--tb_afe_product" author="tereshin" context="dev, prod">
+        <sqlFile path="../../table/tb_afe_product/02--TEST--tb_afe_product.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        <rollback>
+            <sqlFile path="../../table/tb_afe_product/02--TEST--tb_afe_product-rb.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="07--tb_afe_transaction" author="tereshin" context="dev, prod">
+        <sqlFile path="../../table/tb_afe_transaction/01--tb_afe_transaction.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        <rollback>
+            <sqlFile path="../../table/tb_afe_transaction/01--tb_afe_transaction-rb.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="08--tb_afe_transaction" author="tereshin" context="dev, prod">
+        <sqlFile path="../../table/tb_afe_transaction/02--TEST--tb_afe_transaction.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        <rollback>
+            <sqlFile path="../../table/tb_afe_transaction/02--TEST--tb_afe_transaction-rb.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="09--tb_afe_email_token" author="tereshin" context="dev, prod">
+        <sqlFile path="../../table/tb_afe_email_token/01--tb_afe_email_token.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        <rollback>
+            <sqlFile path="../../table/tb_afe_email_token/01--tb_afe_email_token-rb.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="10--tb_afe_role" author="tereshin" context="dev, prod">
+        <sqlFile path="../../table/tb_afe_role/01--tb_afe_role.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        <rollback>
+            <sqlFile path="../../table/tb_afe_role/01--tb_afe_role-rb.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="11--tb_afe_action" author="tereshin" context="dev, prod">
+        <sqlFile path="../../table/tb_afe_action/01--tb_afe_action.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        <rollback>
+            <sqlFile path="../../table/tb_afe_action/01--tb_afe_action-rb.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="12--tb_afe_role_action" author="tereshin" context="dev, prod">
+        <sqlFile path="../../table/tb_afe_role_action/01--tb_afe_role_action.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        <rollback>
+            <sqlFile path="../../table/tb_afe_role_action/01--tb_afe_role_action-rb.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="13--tb_afe_client_role" author="tereshin" context="dev, prod">
+        <sqlFile path="../../table/tb_afe_client_role/01--tb_afe_client_role.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        <rollback>
+            <sqlFile path="../../table/tb_afe_client_role/01--tb_afe_client_role-rb.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="14--tb_afe_client_role" author="tereshin" context="dev, prod">
+        <sqlFile path="../../table/tb_afe_client_role/02--TEST--tb_afe_client_role.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        <rollback>
+            <sqlFile path="../../table/tb_afe_client_role/02--TEST--tb_afe_client_role-rb.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="15--tb_afe_questionnaire" author="tereshin" context="dev, prod">
+        <sqlFile path="../../table/tb_afe_questionnaire/01--tb_afe_questionnaire.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        <rollback>
+            <sqlFile path="../../table/tb_afe_questionnaire/01--tb_afe_questionnaire-rb.sql" relativeToChangelogFile="true" endDelimiter=";"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

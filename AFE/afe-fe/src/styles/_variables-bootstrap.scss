@@ -1,0 +1,31 @@
+$primary: #15395E;
+$info: #2699FB;
+$danger: #FF002B;
+$secondary: #2699FB;
+$secondary: #2699FB;
+
+$sizes: () !default;
+$sizes: map-merge((
+  20: 20%,
+  25: 25%,
+  50: 50%,
+  75: 75%,
+  100: 100%
+), $sizes);
+
+$font-family-base: 'IBM Plex Sans', sans-serif;
+$font-size-base: 1.1rem;
+
+$link-color: $secondary;
+$link-hover-color: #2699FB;
+$component-active-bg: #2699FB;
+
+$body-bg: #fbfbfb;
+
+$pagination-bg: transparent;
+$pagination-disabled-bg: transparent;
+$pagination-disabled-color: #dddddd;
+
+$nav-tabs-link-active-color: $primary;
+$nav-pills-link-active-color: $primary;
+$navbar-light-active-color: $primary;

@@ -1,0 +1,142 @@
+import groovy.sql.Sql
+import liquibase.integration.commandline.Main
+
+buildscript {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.liquibase:liquibase-core:3.5.5'
+        classpath 'mysql:mysql-connector-java:6.0.6'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'maven-publish'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+def profile = 'dev'
+def buildnumber = null
+def ver = '1.0'
+
+if (project.hasProperty('profile') && project.getProperty('profile') == 'prod') {
+    profile = 'prod'
+} else {
+    profile = 'dev'
+}
+
+if (project.hasProperty('buildnumber')) {
+    buildnumber = project.getProperty('buildnumber')
+}
+
+if (buildnumber != null) {
+    ver = ver + '.' + buildnumber
+}
+
+println("build version '" + ver + "'. profile '" + profile + "'")
+
+task('compileSql') {
+    doLast {
+        URLClassLoader loader = Sql.class.classLoader
+        project.buildscript.configurations.classpath.each { loader.addURL(it.toURL()) }
+        Sql.class.classLoader.loadClass("com.mysql.cj.jdbc.Driver")
+
+        def sql = Sql.newInstance("jdbc:mysql://localhost:3306/mysql", "root", "root", "com.mysql.cj.jdbc.Driver")
+        def execute = { script, executor ->
+            script.split(";").each { el ->
+                if (!el.trim().isEmpty()) {
+                    sql.execute(el)
+                }
+            }
+        }
+        println("Drop database")
+        execute(new File("./src/main/resources/drop_db.sql").text, sql)
+        println("Database dropped successfully")
+        println("Create database")
+        execute(new File("./src/main/resources/create_db.sql").text, sql)
+        println("Database created successfully")
+        sql.close()
+
+        def baseArgs = [
+                "--driver=com.mysql.cj.jdbc.Driver"
+                , "--changeLogFile=./src/main/sql/config/changelog.xml"
+                , "--url=jdbc:mysql://localhost:3306/db_afe?&nullNamePatternMatchesAll=true&useSSL=false"
+                , "--username=db_afe_admin"
+                , "--password=db_afe_admin"
+                , "--logLevel=off"
+                , "--contexts=" + profile
+        ]
+
+        println("Collecting sql-update script has been started...")
+        def args = baseArgs.collect()
+        args.push("--outputFile=./src/main/resources/update.sql")
+        args.push('updateSQL')
+        Main.run(args.toArray(new String[args.size()]))
+        println("Collecting sql-update script has been successfully completed...")
+
+        println("Updating database has been started...")
+        args = baseArgs.collect()
+        args.push('update')
+        Main.run(args.toArray(new String[args.size()]))
+        println("Updating database has been successfully completed...")
+
+        println("Collecting sql-rollback script has been started...")
+        args = baseArgs.collect()
+        args.push("--outputFile=./src/main/resources/rollback.sql")
+        args.push('rollbackSQL')
+        args.push('v0.0')
+        Main.run(args.toArray(new String[args.size()]))
+        println("Collecting sql-rollback script has been successfully completed...")
+
+        println("Rollback database has been started...")
+        args = baseArgs.collect()
+        args.push("--outputFile=./src/main/resources/rollback.sql")
+        args.push('rollback')
+        args.push('v0.0')
+        Main.run(args.toArray(new String[args.size()]))
+        println("Rollback database has been successfully completed...")
+
+        println("Updating database has been started...")
+        args = baseArgs.collect()
+        args.push('update')
+        Main.run(args.toArray(new String[args.size()]))
+        println("Updating database has been successfully completed...")
+    }
+}
+
+task('autoClean') {
+    def files = ["./build/libs",
+                 "./build/resources",
+                 "./build/tmp",
+                 "./src/main/resources/rollback.sql",
+                 "./src/main/resources/update.sql"]
+    files.each { path ->
+        def file = new File(path)
+        if (file.exists()) {
+            file.delete()
+        }
+    }
+}
+
+publishing {
+    publications {
+        jar(MavenPublication) {
+            groupId 'uk.co'
+            artifactId 'afe-db'
+            version ver
+            from components.java
+        }
+    }
+}
+
+processResources.dependsOn.add('compileSql')
+classes.dependsOn.remove('processResources')
+compileSql.dependsOn.add('autoClean')
+compileJava.dependsOn.add('processResources')

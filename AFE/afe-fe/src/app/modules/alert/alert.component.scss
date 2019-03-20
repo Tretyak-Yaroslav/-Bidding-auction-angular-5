@@ -1,0 +1,5 @@
+:host {
+  &.disabled {
+    pointer-events: none;
+  }
+}

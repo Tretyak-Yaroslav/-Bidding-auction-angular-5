@@ -1,0 +1,150 @@
+<div class="container">
+  <h2 class="mt-4">Publications</h2>
+  <p class="text-primary-lighter">Here you can see all your active and Inactive publications</p>
+
+  <div class="row text-center" style="margin-bottom: -1px;">
+    <div class="col-4 col-md-2 px-4 py-3 bg-white-hover border-grey-hover cursor-pointer"
+         routerLink="/publications"
+         routerLinkActive="active">
+      Publications
+    </div>
+    <div class="col-4 col-md-2 bg-white px-4 py-3 border-grey border border-bottom-0 text-info">
+      History
+    </div>
+    <div class="col-4 col-md-2 px-4 py-3 bg-white-hover border-grey-hover cursor-pointer"
+         routerLink="/settings"
+         routerLinkActive="active">
+      Settings
+    </div>
+  </div>
+
+  <div class="border-grey border row py-2 bg-white">
+    <div class="col-4 col-md-2 d-flex align-items-center justify-content-center">
+      <span class="cursor-pointer"
+            (click)="setActiveGroup(ProductGroup.OWNED)"
+            [ngClass]="{ 'text-secondary' : activeGroup === ProductGroup.OWNED }">Owned
+        <span>({{ _pureOwnedProducts?.length }})</span>
+      </span>
+    </div>
+    <div class="col-4 col-md-2 d-flex align-items-center justify-content-center">
+      <span class="cursor-pointer"
+            (click)="setActiveGroup(ProductGroup.EXPIRED)"
+            [ngClass]="{ 'text-secondary' : activeGroup === ProductGroup.EXPIRED }">Expired
+        <span>({{ _pureExpiredProducts?.length }})</span>
+      </span>
+    </div>
+    <div class="col d-none d-md-block col-md-4"></div>
+    <div class="col bg-white">
+      <form class="form-inline rounded bg-white p-1 w-100" [formGroup]="searchForm">
+        <input type="text"
+               class="form-control badge-pill w-100"
+               (input)="search()"
+               formControlName="search"
+               placeholder="Search"
+               aria-label="Search">
+      </form>
+    </div>
+  </div>
+
+
+  <div class="row mt-4 text-primary-lighter"
+       [hidden]="!activeItems || activeItems?.length === 0">
+    <div class="col-2">
+    <span class="cursor-pointer mx-2"
+          [ngClass]="{ 'text-info': sortBy === 'startDate' }"
+          (click)="sortWithDirSwitch('startDate')">Date</span>
+    </div>
+
+    <div class="col-4">
+    <span class="cursor-pointer mx-2"
+          [ngClass]="{ 'text-info': sortBy === 'name' }"
+          (click)="sortWithDirSwitch('name')">Naming</span>
+    </div>
+
+    <div class="col-2">
+    <span class="cursor-pointer mx-2"
+          [ngClass]="{ 'text-info': sortBy === 'startingBid' }"
+          (click)="sortWithDirSwitch('startingBid')">Price</span>
+    </div>
+  </div>
+
+  <div class="row border-grey border thumbnail bg-white rounded my-3 py-2" *ngFor="let product of activeItems">
+    <div class="col-12 col-sm-2 d-flex align-items-center">
+      <span class="text-primary-lighter font-weight-light">{{ product.startDate | date:'HH:mm dd.MM.yyyy' }}</span>
+    </div>
+
+    <div class="col-12 col-md-5 row my-2 mx-0 p-0">
+      <div class="col-4 col-lg-3">
+        <img class="img-fluid d-inline-block"
+             [src]="product.photoSrc"
+             src="./assets/images/product_default.png"
+             alt="{{ product.name }}">
+      </div>
+
+      <div class="col-8">
+        <h5 style="color:#73889E">{{ product.name }}</h5>
+
+        <div>
+          <a class="p-2"
+                  routerLinkActive="active"
+                  routerLink="/lot/{{product.productId}}"><i class="material-icons">description</i>View
+          </a>
+
+          <a class="p-2"
+                routerLinkActive="active"
+                routerLink="/lot/{{product.productId}}">
+           <i class="material-icons">remove_red_eye</i><span> {{ product.bidCount}}</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-md-2 d-flex align-items-center">
+      <h3>{{ product.price | currency:'GBP' }}</h3>
+    </div>
+
+    <div class="col-md-3 d-flex align-items-center">
+      <div class="w-100 px-3">
+        <h5 class="text-right" *ngIf="product.productStatus == ProductStatus.OWNED">Owned </h5>
+        <h5 class="text-right" *ngIf="product.productStatus == ProductStatus.SALE_PENDING">Sale submitting</h5>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center" *ngIf="activeItems?.length === 0">
+    <h2 class="py-5">You have not any products yet</h2>
+  </div>
+
+  <div class="text-center my-5" *ngIf="activeItems === null">
+    <div class="loader-circle m-auto" style="font-size: 3rem"></div>
+    <span class="py-2">Loading...</span>
+  </div>
+
+  <div class="text-center my-5 text-danger h4" *ngIf="ownedError && activeGroup === ProductGroup.OWNED">
+    {{ownedError}}
+  </div>
+  <div class="text-center my-5 text-danger h4" *ngIf="expiredError && activeGroup === ProductGroup.EXPIRED">
+    {{expiredError}}
+  </div>
+
+  <div class="w-100 text-center py-5">
+    <pagination [boundaryLinks]="true"
+                class=""
+                style="margin: 0 auto; display: inline-block"
+               [hidden]="availableItems?.length < itemsPerPage"
+                [totalItems]="availableItems?.length"
+                [maxSize]="5"
+                [itemsPerPage]="itemsPerPage"
+                (pageChanged)="pageChanged($event)"
+                previousText="&lsaquo;"
+                nextText="&rsaquo;"
+                firstText="&laquo;"
+                lastText="&raquo;">
+    </pagination>
+  </div>
+
+
+</div>
+
+

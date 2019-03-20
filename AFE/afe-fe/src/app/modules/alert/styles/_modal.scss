@@ -1,0 +1,83 @@
+.backdrop {
+  position:   fixed;
+  top:        0;
+  right:      0;
+  bottom:     0;
+  left:       0;
+  z-index:    1040;
+  background: $backdrop-bg;
+
+  &.appear {
+    animation: $backdrop-appear;
+  }
+
+  &.disappear {
+    animation: $backdrop-disappear;
+  }
+}
+
+.alert {
+  display:        flex;
+  flex-direction: column;
+  position:       fixed;
+  z-index:        1050;
+  top:            $alert-top;
+  margin:         $alert-margin;
+  left:           0;
+  right:          0;
+  align-self:     center;
+  justify-self:   center;
+
+  max-width:      $alert-max-width;
+  width:          $alert-width;
+  background:     $alert-background;
+  border:         $alert-border;
+  border-radius:  $alert-border-radius;
+
+  &.appear {
+    animation: $alert-appear;
+  }
+
+  &.disappear {
+    animation: $alert-disappear;
+  }
+}
+
+.button-close {
+  position:  absolute;
+  top:       0;
+  right:     $btn-close-right;
+  font-size: $btn-close-font-size;
+  color:     $btn-close-color;
+  cursor:    pointer;
+  &:hover {
+    color:       $btn-close-hover-color;
+    text-shadow: $btn-close-hover-shadow;
+  }
+}
+
+.icon-container {
+  text-align: center;
+  .alert-icon {
+    width:   $icon-width;
+    display: inline-block;
+  }
+}
+
+.caption {
+  text-align: $caption-align;
+  font-size:  $caption-size;
+}
+
+.buttons-container {
+  //display:   flex;
+  text-align: right;
+  //flex-wrap: wrap;
+  margin:    $buttons-margin;
+
+  .btn {
+   // flex:   1;
+    margin: $button-margin;
+  }
+}
+

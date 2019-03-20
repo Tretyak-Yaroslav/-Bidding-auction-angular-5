@@ -1,0 +1,71 @@
+:host {
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+
+    to {
+      opacity: 0;
+    }
+  }
+
+  $alert-appear: fadeIn .6s !default;
+  $alert-disappear: fadeOut .6s !default;
+
+  .bids-container {
+    display:        flex;
+    flex-direction: column;
+    position:       fixed;
+    top:            15vh;
+    margin:         0 auto;
+    left:           0;
+    right:          0;
+    align-self:     center;
+    justify-self:   center;
+    z-index:        1050;
+
+    max-width:      500px;
+    max-height:     70vh;
+    width:          90%;
+//    border:         solid 1px #444444;
+    background:     white;
+    box-shadow:     0 0 10px rgba(0, 0, 0, .4);
+
+    &.appear {
+      animation: $alert-appear;
+    }
+
+    &.disappear {
+      animation: $alert-disappear;
+    }
+  }
+
+  .button-close {
+    position:  absolute;
+    top:       0;
+    right:     20px;
+    font-size: 2rem;
+    color:     grey;
+    cursor:    pointer;
+    &:hover {
+      color: black;
+    }
+  }
+}
+
+:host {
+  &.disabled {
+    pointer-events: none;
+  }
+}

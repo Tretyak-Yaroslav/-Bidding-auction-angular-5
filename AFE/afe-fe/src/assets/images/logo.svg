@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-161 -125 131 57">
+  <defs>
+    <style>
+      .cls-1 {
+        clip-path: url(#clip-Logo);
+      }
+
+      .cls-2 {
+        fill: #a79453;
+      }
+
+      .cls-3, .cls-4 {
+        fill: #15395e;
+      }
+
+      .cls-4 {
+        font-size: 12px;
+        font-family: TwCenMT-Regular, Tw Cen MT;
+        letter-spacing: 0.045em;
+      }
+
+      .cls-5 {
+        fill: #fff;
+      }
+    </style>
+    <clipPath id="clip-Logo">
+      <rect x="-161" y="-125" width="131" height="57"/>
+    </clipPath>
+  </defs>
+  <g id="Logo" class="cls-1">
+    <rect class="cls-5" x="-161" y="-125" width="131" height="57"/>
+    <g id="Logo-2" data-name="Logo" transform="translate(249 -19)">
+      <g id="Group_435" data-name="Group 435">
+        <path id="Path_256" data-name="Path 256" class="cls-2" d="M67,252.538H79.74L71.123,234.82s2.693.038,3.731,1.788c0,0,2.837-5.237-.748-7.208,0,0,1.841,1.347.719,4.82,0,0-2.99-4.458-9.262-2.583,0,0,5.441.112,6.3,1.667,0,0-11.533-2.513-23.188,8.708a24.12,24.12,0,0,1,11.99-9.222S51.39,231.8,28.74,252.527H46.891s8.348-16.778,14.163-13.278Z" transform="translate(-436.74 -305.538)"/>
+        <path id="Path_257" data-name="Path 257" class="cls-2" d="M219.121,218.052s-.7,1.692-1.879,1.833a4.74,4.74,0,0,0-2.2.91.037.037,0,0,1-.053-.048c.234-.358.665-.973.877-1.017,0,0-1.965.882-2.886.4a1.365,1.365,0,0,1-.831-1.57c-.065-.242-1.111-1.187-5.025-.583a4.635,4.635,0,0,1,4.351-.77c2.568.7,4.132,1.157,4.931,1.322a1.516,1.516,0,0,0,.317.032C217.5,218.557,218.761,218.579,219.121,218.052Z" transform="translate(-585.486 -295.207)"/>
+        <path id="Path_258" data-name="Path 258" class="cls-2" d="M51.86,262.3s10.383-10.1,15.492-11.062a28.3,28.3,0,0,0-11.981,3.73A66.109,66.109,0,0,0,51.86,262.3Z" transform="translate(-456.019 -323.738)"/>
+        <path id="Path_259" data-name="Path 259" class="cls-3" d="M94,95.092s11.649-4.048,13.706-3.667a16.838,16.838,0,0,0-8.077-.228s6.645-4.583,21.286-.167l-10.624-22.8h-3.544Z" transform="translate(-491.158 -171.23)"/>
+        <text id="ALTERNATIVE_FINANCE_EXCHANGE" data-name="ALTERNATIVE 
+FINANCE 
+EXCHANGE" class="cls-4" transform="translate(-350 -86)"><tspan x="0" y="0">ALTERNATIVE </tspan><tspan x="0" y="12">FINANCE </tspan><tspan x="0" y="24">EXCHANGE</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>

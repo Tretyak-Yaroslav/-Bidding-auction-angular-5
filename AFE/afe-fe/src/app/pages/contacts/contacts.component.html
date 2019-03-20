@@ -1,0 +1,100 @@
+<div class="container pb-5">
+  <h2 class="mt-4">Contact Us</h2>
+  <p class="text-primary-lighter">Our manager will contact you asap</p>
+
+  <h3 class="mt-5">Please enter the following</h3>
+
+  <form [formGroup]="contactForm">
+    <div class="row my-3">
+
+      <div class="col-12 col-md-6">
+        <div class="md-input-group">
+          <input formControlName="email"
+                 id="email"
+                 type="text"
+                 required
+                 [ngClass]="{ 'error': (email.invalid && email.dirty) }">
+          <label class="w-100" for="email">Email
+            <span *ngIf="email.invalid && email.dirty" class="text-danger" style="position: absolute; top:0; right: 0;">
+            Required to fill
+              <i class="md-icon material-icons"
+                 style="font-size: inherit">error</i></span>
+          </label>
+          <div class="md-bar"></div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <div class="md-input-group md-icon-after">
+          <input formControlName="name"
+                 id="name"
+                 #nameRef
+                 type="text"
+                 required
+                 [ngClass]="{ 'error': (name.invalid && name.dirty) }">
+          <label class="w-100" for="name">Name
+            <span *ngIf="name.invalid && name.dirty && name.errors"
+                  class="text-danger text-right"
+                  style="position: absolute; top:0; right: 0; height: 1.5em; overflow-y: hidden">
+                 <span *ngIf="name.errors.required != null">
+                   Required to fill
+                   <i class="md-icon material-icons" style="font-size: inherit">error</i>
+                   <br>
+                 </span>
+             </span>
+          </label>
+          <div class="md-bar"></div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="row my-3">
+
+      <div class="col-12">
+        <div class="md-textarea-group">
+          <textarea formControlName="message"
+                    id="message"
+                    #messageRef
+                    required
+                    [ngClass]="{ 'error': (message.invalid && message.dirty) }">
+          </textarea>
+          <label class="w-100" for="message">Message
+            <span *ngIf="message.invalid && message.dirty"
+                  class="text-danger"
+                  style="position: absolute; top:0; right: 0;">
+            Required to fill
+              <i class="md-icon material-icons"
+                 style="font-size: inherit">error</i></span>
+          </label>
+          <div class="md-bar"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row my-5">
+      <div class="col-6 text-center">
+        <!--  <div>
+            <input id="remember" type="checkbox">
+            <label for="remember" class="btn-link ml-2">Keep me logged-in</label>
+          </div>-->
+        <div *ngIf="loading" class="text-primary loader-points_three" style="margin: 0 auto;"></div>
+        <p *ngIf="error" class="text-danger">
+          Make sure that all fields filled correctly.
+        </p>
+
+      </div>
+
+      <div class="col-6 text-right">
+        <button class="btn btn-primary px-5"
+                [disabled]="loading ? 'disabled': null"
+                [ngClass]="{ 'btn-outline-primary disabled': contactForm.invalid }"
+                (click)="submit()">Send
+        </button>
+      </div>
+
+    </div>
+  </form>
+</div>

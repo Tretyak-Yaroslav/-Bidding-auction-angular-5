@@ -1,0 +1,14 @@
+.thumbnail:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+}
+
+.bg-white-hover:hover {
+  background: white;
+}
+
+.border-grey-hover:hover {
+  border:        solid 1px #e6e6e6;
+  border-bottom: 0px;
+  box-sizing: border-box;
+}

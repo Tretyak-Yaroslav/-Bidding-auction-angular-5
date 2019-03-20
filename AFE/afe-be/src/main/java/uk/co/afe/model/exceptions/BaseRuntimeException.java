@@ -1,0 +1,34 @@
+package uk.co.afe.model.exceptions;
+
+/**
+ * @author Sergey Teryoshin
+ * 13.03.2018 17:16
+ */
+public class BaseRuntimeException extends RuntimeException {
+
+    private String code;
+
+    public BaseRuntimeException(String code) {
+        this.code = code;
+    }
+
+    public BaseRuntimeException(String code, String message) {
+        super(message);
+        this.code = code;
+    }
+
+    public BaseRuntimeException(String code, String message, Throwable cause) {
+        super(message, cause);
+        this.code = code;
+    }
+
+    public BaseRuntimeException(String code, Throwable cause) {
+        super(cause);
+        this.code = code;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+}

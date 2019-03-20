@@ -1,0 +1,183 @@
+<nav class="navbar fixed-top navbar-expand-lg bg-white navbar-light py-0"
+     [ngClass]="{ 'slidebar-open': showSidebar }">
+  <a class="navbar-brand py-0" routerLink="/" routerLinkActive="active">
+    <img src="./assets/images/logo.svg" width="130" height="70" alt="Logo">
+  </a>
+
+  <div class="slidebar-cross d-lg-none position-absolute">
+    <i id="menu-cross"
+       (click)="showSidebar = !showSidebar"
+       [ngClass]="{ open: showSidebar }">
+      <span></span>
+      <span></span>
+      <span></span>
+    </i>
+  </div>
+  <!-- START MENUBAR MENU -->
+  <div class="collapse navbar-collapse">
+
+    <!--   <form class="form-inline my-2 my-lg-0" [formGroup]="searchForm">
+         <input class="form-control mr-sm-2 d-flex"
+                formControlName="search"
+                type="search"
+                style="min-width: 20px; max-width: 150px"
+                placeholder="Search"
+                aria-label="Search">
+         <button class="btn btn-outline-primary my-2 my-sm-0" type="button" (click)="search()">
+           Search
+         </button>
+       </form>-->
+
+    <ul class="navbar-nav ml-auto font-weight-bold">
+      <li class="nav-item">
+        <a class="nav-link material-icons" routerLink="/" routerLinkActive="active">home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/about" routerLinkActive="active">About Us</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/lets-try" routerLinkActive="active">Let's try</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/contacts" routerLinkActive="active">Contacts</a>
+      </li>
+    </ul>
+
+    <button *ngIf="authorized && !managerPermission"
+            class="btn btn-outline-primary"
+            routerLink="/create"
+            routerLinkActive="active">Sell your item
+    </button>
+
+    <button *ngIf="!authorized && !managerPermission"
+            class="btn btn-outline-primary"
+            routerLink="/login"
+            routerLinkActive="active"
+            [queryParams]="{ returnUrl: '/create' }">Sell your item
+    </button>
+
+    <div class="d-none d-lg-block divider-vertical mx-3"></div>
+
+    <ng-container *ngIf="authorized; else notAuthorizedRef">
+      <div class="mr-0">
+        <ul class="navbar-nav">
+          <li class="nav-item position-relative" dropdown placement="bottom right">
+            <a class="nav-link text-nowrap dropdown-toggle cursor-pointer"
+               dropdownToggle>
+              {{ client.name }}
+              <span class="caret"></span>
+              <img [src]="client.avatarSrc" height="40px" width="40px" alt="Avatar">
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+              <ng-container *ngIf="!managerPermission">
+                <a class="dropdown-item" routerLink="/publications" routerLinkActive="active">Publications</a>
+                <a class="dropdown-item" routerLink="/acquired" routerLinkActive="active">History</a>
+                <a class="dropdown-item" routerLink="/settings" routerLinkActive="active">Settings</a>
+              </ng-container>
+
+              <ng-container *ngIf="managerPermission">
+                <a class="dropdown-item" routerLink="/products" routerLinkActive="active">Products</a>
+                <a class="dropdown-item" routerLink="/clients" routerLinkActive="active">Clients</a>
+                <a class="dropdown-item" routerLink="/dictionary" routerLinkActive="active">Dictionary</a>
+                <a class="dropdown-item" routerLink="/settings" routerLinkActive="active">Settings</a>
+              </ng-container>
+
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item cursor-pointer btn-link" (click)="logout()"><i class="material-icons">exit_to_app</i>Logout</a>
+            </div>
+
+          </li>
+        </ul>
+      </div>
+    </ng-container>
+    <ng-template #notAuthorizedRef>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link mr-3" routerLink="/login" routerLinkActive="active">Sign In</a>
+        </li>
+      </ul>
+      <button class="btn btn-info" routerLink="/registration" routerLinkActive="active">Sign Up</button>
+    </ng-template>
+
+  </div>
+  <!-- START MENUBAR MENU -->
+
+  <!-- START SLIDEBAR MENU -->
+  <div class="slidebar-backdrop d-lg-none"
+       (click)="showSidebar = !showSidebar"></div>
+
+  <div class="slidebar d-lg-none">
+
+    <ng-container *ngIf="authorized; else notAuthorizedSlidebarRef">
+      <div class="d-flex flex-row p-3">
+        <img [src]="client.avatarSrc" alt="Avatar" height="40px" width="40px" class="mr-2">
+        <div class="d-inline-block">
+          <span>{{ client.name }}</span>
+        </div>
+      </div>
+      <hr>
+
+      <button *ngIf="authorized"
+              class="btn btn-outline-primary mx-3 my-3"
+              routerLink="/create"
+              routerLinkActive="active">Sell your item
+      </button>
+
+      <ng-container *ngIf="!managerPermission">
+        <a class="dropdown-item" routerLink="/publications" routerLinkActive="active">Publications</a>
+        <a class="dropdown-item" routerLink="/acquired" routerLinkActive="active">History</a>
+        <a class="dropdown-item" routerLink="/settings" routerLinkActive="active">Settings</a>
+      </ng-container>
+
+      <ng-container *ngIf="managerPermission">
+        <a class="dropdown-item" routerLink="/products" routerLinkActive="active">Products</a>
+        <a class="dropdown-item" routerLink="/clients" routerLinkActive="active">Clients</a>
+        <a class="dropdown-item" routerLink="/dictionary" routerLinkActive="active">Dictionary</a>
+        <a class="dropdown-item" routerLink="/settings" routerLinkActive="active">Settings</a>
+      </ng-container>
+
+      <hr>
+
+      <ul class="navbar-nav ml-auto font-weight-bold px-3">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/about" routerLinkActive="active">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/lets-try" routerLinkActive="active">Let's try</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/contacts" routerLinkActive="active">Contacts</a>
+        </li>
+      </ul>
+
+      <a class="dropdown-item cursor-pointer btn-link" (click)="logout()"><i class="material-icons">exit_to_app</i>Logout</a>
+    </ng-container>
+
+    <ng-template #notAuthorizedSlidebarRef>
+
+      <div class="d-flex justify-content-between pl-3 pr-3 pt-3">
+        <button class="btn btn-link" routerLink="/login" routerLinkActive="active">Sign In</button>
+        <button class="btn btn-info" routerLink="/registration" routerLinkActive="active">Sign Up</button>
+      </div>
+
+      <hr>
+
+      <ul class="navbar-nav ml-auto font-weight-bold px-3">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/about" routerLinkActive="active">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/lets-try" routerLinkActive="active">Let's try</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/contacts" routerLinkActive="active">Contacts</a>
+        </li>
+      </ul>
+    </ng-template>
+
+  </div>
+  <!-- END SLIDEBAR MENU -->
+
+
+</nav>

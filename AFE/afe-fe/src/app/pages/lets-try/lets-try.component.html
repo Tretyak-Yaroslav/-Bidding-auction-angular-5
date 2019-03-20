@@ -1,0 +1,89 @@
+<section class="container">
+  <h1 class="my-5 text-center">Lets try</h1>
+</section>
+
+<section class="container">
+  <div style="height: 100px"></div>
+  <div class="row">
+    <div class="col-12 col-md-6 d-flex align-items-center">
+      <div>
+        <h3 class="font-weight-bold">Universal marketplace of financial products</h3>
+        <br>
+        <p class="text-primary-lighter">Excepteur sint occaecat cupidatat non proident</p>
+        <br>
+        <p class="text-primary-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+          incididunt ut ero labore et dolore magna aliqua.
+        </p>
+        <br>
+        <button class="btn btn-primary px-4 py-2 mb-5" routerLink="/contacts" routerLinkActive="active">Contact Us</button>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 position-relative">
+      <img class="img-fluid d-inline-block"
+           src="./assets/images/phone.png"
+           alt="Phone">
+    </div>
+  </div>
+</section>
+
+<section class="container py-5">
+  <h3 class="text-center font-weight-bold my-5">Our Values</h3>
+  <div class="row">
+    <div class="col-12 col-md-4 text-center px-5 py-2 text-primary-lighter">
+       <i class="text-secondary material-icons"
+             style="font-size: 7rem">search</i>
+      <h5>Transparency</h5>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+    </div>
+    <div class="col-12 col-md-4 text-center px-5 py-2 text-primary-lighter">
+        <i class="text-secondary material-icons"
+              style="font-size: 7rem">home</i>
+      <h5>Open markets</h5>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+    </div>
+    <div class="col-12 col-md-4 text-center px-5 py-2 text-primary-lighter">
+      <span class="text-secondary material-icons"
+            style="font-size: 7rem">share</span>
+      <h5>Decentralization</h5>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+    </div>
+  </div>
+</section>
+
+<section class="container py-5">
+  <h3 class="text-center font-weight-bold my-5">Our Team</h3>
+  <div class="" style="white-space: nowrap; overflow-x: hidden">
+    <div class="col-6 col-md-4 col-lg-3 text-center py-2 text-primary-lighter d-inline-block"
+         style="width: 230px"
+         *ngFor="let i of [0,1,2,3,4]">
+      <img class="d-inline-block bordered badge-pill my-2"
+           src="./assets/images/bruce_wayne.png"
+           width="110px"
+           alt="Avatar">
+      <h5>Bruce Wayne</h5>
+      <p>Marketing</p>
+    </div>
+  </div>
+</section>
+
+<div style="background: url('./assets/images/cta.png'); background-size: cover" class="position-relative">
+  <div style="position: absolute; top:0; z-index: -1; right:0; bottom:0; left:0; background: #a6a7a6;"></div>
+  <section class="container py-5 my-5 position-relative">
+
+    <div class="container pb-5">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="text-center font-weight-bold my-5 text-white">
+            Start your saving account right now!<br>
+            Save your future!</h2>
+          <div class="text-center">
+            <button class="btn btn-outline-light py-2 px-4" routerLink="/registration" routerLinkActive="active">
+              Sign Up
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

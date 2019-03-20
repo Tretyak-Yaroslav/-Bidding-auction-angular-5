@@ -1,0 +1,22 @@
+<section class="container text-center py-5">
+  <h2 class="text-center my-3">Verifying my email</h2>
+  <p class="text-primary-lighter">Just one more security step and you can be loggin.</p>
+  <div class="h2 my-5">
+    <span class="text-danger">{{ errorMessage }}</span>
+    <span class="text-success">{{ successMessage }}</span>
+  </div>
+
+  <div class="text-center my-4" *ngIf="loader">
+    <div class="loader-circle m-auto" style="font-size: 3rem"></div>
+    <span class="py-2">Loading...</span>
+  </div>
+
+  <div *ngIf="successMessage">
+    <button class="btn btn-outline-primary px-5 my-3"
+            routerLink="/login"
+            routerLinkActive="active">LOG IN
+    </button>
+    <br>
+    (redirect will be automatically in 5 seconds)
+  </div>
+</section>

@@ -1,0 +1,16 @@
+.navbar {
+  border-bottom: solid 1px grey;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+}
+
+.divider-vertical {
+  height: 30px;
+  margin: 5px 9px;
+  border-left: 1px solid rgba(0, 36, 77, 0.64);
+}
+
+.divider-horizontal {
+  width: 100%;
+  margin: 9px 0;
+  border-top: 1px solid #f2f2f2;
+}

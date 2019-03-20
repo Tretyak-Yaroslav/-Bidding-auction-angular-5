@@ -1,0 +1,45 @@
+/*
+ * Backdrop
+ */
+$backdrop-bg:                rgba(0, 0, 0, 0.5) !default;
+$backdrop-appear:            fadeIn .3s !default;
+$backdrop-disappear:         fadeOut .7s !default;
+/*
+ * Alert
+ */
+$alert-top:                  25% !default;
+$alert-margin:               5% auto !default;
+$alert-max-width:            600px !default;
+$alert-width:                90% !default;
+$alert-background:           white !default;
+$alert-border:               1px solid transparent !default;
+$alert-border-radius:        0.25rem !default;
+
+$alert-appear:               fadeIn .6s !default;
+$alert-disappear:            fadeOut .6s !default;
+
+/*
+ * Close button
+ */
+$btn-close-font-size:        25px !default;
+$btn-close-right:            15px !default;
+$btn-close-color:            grey !default;
+$btn-close-hover-color:      black !default;
+$btn-close-hover-shadow:     0 0 5px rgba(0, 0, 0, .3) !default;
+
+/*
+ * Icon
+ */
+$icon-width:                 24% !default;
+
+/*
+ * Caption
+ */
+$caption-align:              center;
+$caption-size:               2rem !default;
+
+/*
+ * Buttons
+ */
+$buttons-margin:             10px 0 auto 0 !default;
+$button-margin:              5px !default;

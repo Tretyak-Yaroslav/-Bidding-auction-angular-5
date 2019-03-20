@@ -1,0 +1,127 @@
+<div class="container">
+  <h2 class="mt-4">Obligations</h2>
+  <p class="text-primary-lighter">Here you can find some obligation</p>
+
+  <form class="row mt-5 mb-2 mx-0 form-inline w-100 rounded bg-white p-1" [formGroup]="searchForm">
+    <div class="col p-0">
+      <input type="text"
+             class="form-control w-100"
+             (input)="search()"
+             formControlName="search"
+             placeholder="Search"
+             aria-label="Search">
+    </div>
+    <button class="btn btn-primary col-auto" (click)="search()">Search</button>
+  </form>
+
+  <div class="row">
+    <div class="col-12 pl-4 font-weight-light text-primary-lighter">
+      {{ availableItems?.length }} obligations
+    </div>
+  </div>
+
+  <div class="row mt-4"
+       [hidden]="activeItems?.length === 0">
+    <div class="col-12 text-primary-lighter d-flex justify-content-between">
+      <div>
+        <span class="cursor-pointer mx-4 text-nowrap"
+              [ngClass]="{ 'text-info': sortBy === 'name'}"
+              (click)="sortWithDirSwitch('name')">Name</span>
+        <span class="cursor-pointer mx-4 text-nowrap"
+              [ngClass]="{ 'text-info': sortBy === 'startingBid'}"
+              (click)="sortWithDirSwitch('startingBid')">Price</span>
+      </div>
+
+      <div class="float-right">
+        <i class="cursor-pointer md-icon material-icons"
+           [ngClass]="{ 'text-info': listView === true}"
+           style="font-size: 2rem"
+           (click)="listView = true">view_list</i>
+        <i class="cursor-pointer md-icon material-icons"
+           [ngClass]="{ 'text-info': listView === false}"
+           style="font-size: 2rem"
+           (click)="listView = false">view_module</i>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="listView; else squareView">
+    <div class="row border-grey border thumbnail rounded my-3 py-2 mx-2" *ngFor="let product of activeItems">
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 px-2">
+        <img class="img-fluid d-inline-block float-right"
+             style="max-width: 140px"
+             [src]="product.photoSrc"
+             alt="{{ product.name }}"></div>
+      <div class="col-6 col-sm-4 col-md-5 col-lg-6 col-xl-6">
+        <h4 class="mt-3" style="color:#73889E">{{ product.name }}</h4>
+        <h6 class="text-primary-lighter font-weight-light my-2">
+          Start: {{ product.startDate | date:'HH:mm dd.MM.yyyy' }}</h6>
+        <h4 class="mt-3" style="font-size: 1.4rem" *ngIf="currentTime >= product.startDate && currentTime < product.endDate">
+          <span class="text-primary"> Time left: </span>
+          <span class="text-primary-lighter">{{ product.endDate  | timeLeft:change }}</span>
+        </h4>
+        <h4 class="mt-3" style="font-size: 1.4rem" *ngIf="currentTime < product.startDate">
+          <span class="text-primary"> Event start: </span>
+          <span class="text-primary-lighter">{{ product.startDate  | timeLeft:change  }}</span>
+        </h4>
+      </div>
+      <div class="col-12 col-sm-4 col-md-4 text-right">
+        <h3 class="my-3 text-primary">{{ product.startingBid | currency:'GBP' }}</h3>
+        Bids: <span class="btn-link"
+                    outerLinkActive="active"
+                    routerLink="/lot/{{product.productId}}">{{ product.bidCount }}</span><br>
+        <button class="btn btn-outline-primary px-4 mb-2 mt-4 font-weight-bold"
+                routerLinkActive="active"
+                routerLink="/lot/{{product.productId}}">View
+        </button>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #squareView>
+    <div class="row">
+      <div class="col-6 col-sm-4 col-lg-3 col-xl-2 p-2 cursor-pointer" *ngFor="let product of activeItems">
+        <div class="border-grey border thumbnail rounded text-center p-2 h-100">
+          <h5 class="mt-3"
+              style="color:#73889E; white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">
+            {{ product.name }}
+          </h5>
+          <span style="color: #CAD2DA"
+                class="text-primary-lighter font-weight-light pt-2">
+            {{ product.startDate | date:'HH:mm dd.MM.yyyy' }}
+          </span>
+          <h3 class="text-primary m-2">{{ product.startingBid | currency:'GBP' }}</h3>
+          <div class="col-12 px-4 py-2">
+            <button class="btn btn-outline-primary w-100 font-weight-bold"
+                    routerLinkActive="active"
+                    routerLink="/lot/{{product.productId}}">View
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <div class="text-center" *ngIf="activeItems?.length === 0">
+    <h2 class="py-5">We did not find results for this search :/</h2>
+  </div>
+
+  <div class="text-center py-4" *ngIf="activeItems === null">
+    <div style="font-size: 6rem; margin: 0 auto 0 auto;" class="loader-circle"></div>
+  </div>
+
+  <div class="w-100 text-center py-5">
+    <pagination [boundaryLinks]="true"
+                class=""
+                style="margin: 0 auto; display: inline-block"
+                [hidden]="availableItems?.length < itemsPerPage"
+                [totalItems]="availableItems?.length"
+                [maxSize]="5"
+                [itemsPerPage]="itemsPerPage"
+                (pageChanged)="pageChanged($event)"
+                previousText="&lsaquo;"
+                nextText="&rsaquo;"
+                firstText="&laquo;"
+                lastText="&raquo;">
+    </pagination>
+  </div>
+</div>

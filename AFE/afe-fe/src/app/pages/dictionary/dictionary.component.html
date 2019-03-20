@@ -1,0 +1,86 @@
+<div class="container">
+  <h2 class="mt-4">Dictionary</h2>
+  <p class="text-primary-lighter">Here you can manage</p>
+
+  <div class="row text-center" style="margin-bottom: -1px;">
+
+    <div class="col-3 col-md-2 p-0 px-sm-4 py-3 bg-white-hover cursor-pointer"
+         routerLink="/products"
+         routerLinkActive="active">
+      Products
+    </div>
+    <div class="col-3 col-md-2 px-sm-4 p-0 py-3 bg-white-hover cursor-pointer" routerLink="/clients" routerLinkActive="active">
+      All Clients
+    </div>
+    <div class="col-3 col-md-2 bg-white p-0 px-sm-4 py-3 border-grey border cursor-pointer border-bottom-0 btn-link text-info">
+      Dictionary
+    </div>
+    <div class="col-3 col-md-2 p-0 px-sm-4 py-3 bg-white-hover cursor-pointer"
+         routerLink="/settings"
+         routerLinkActive="active">
+      Settings
+    </div>
+  </div>
+
+  <div class="border-grey border row py-2 bg-white">
+
+    <div class="col-4 col-md-2 d-flex align-items-center justify-content-center">
+      <!--<span class="cursor-pointer"-->
+      <!--(click)="setActiveGroup(ProductGroup.PENDING)"-->
+      <!--[ngClass]="{ 'text-secondary' : activeGroup === ProductGroup.PENDING }">Pending-->
+      <!--<span>({{ _pandingProducts?.length }})</span>-->
+      <!--</span>-->
+    </div>
+
+    <div class="col-4 col-md-2 d-flex align-items-center justify-content-center">
+      <br>
+    </div>
+    <div class="col d-none d-md-block col-md-4"></div>
+  </div>
+
+  <div class="">
+    <div class="my-5">
+      <h4 class="text-center">Download or upload flies in appropriate
+        format .xlsx</h4>
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-6 text-right">
+        <img class="img-fluid d-inline-block"
+             src="./assets/images/excel.jpeg"
+             alt="Excel">
+      </div>
+      <div class="col-12 col-md-6 d-flex align-items-center">
+        <div class="my-3">
+          <h5><i class="md-icon material-icons mr-3">check</i> Do not delete old records</h5>
+          <h5><i class="md-icon material-icons mr-3">check</i> To hide use
+            <span class="text-secondary font-weight-bold">'Hidden'</span></h5>
+          <h5><i class="md-icon material-icons mr-3">check</i> Rename column to
+            <span class="text-secondary font-weight-bold">'Dicitonaries'</span></h5>
+        </div>
+      </div>
+    </div>
+    <div>
+      <span class="text-danger">{{ this.errorMessage }}</span> <br>
+    </div>
+    <input type="file"
+           name="avatar"
+           #fileLoad
+           accept=".xlsx"
+           style="visibility:hidden"
+           id="fileToUpload"
+           (change)="upload($event)">
+    <div class="text-center my-5">
+      <button class="btn btn-link font-weight-bold"
+              [disabled]="loading ? 'disabled': null"
+              (click)="fileLoad.click()">Upload
+      </button>
+      <a class="btn btn-link font-weight-bold"
+         target="_self"
+         href="{{DICTIONARY_DOWNLOAD_GET_URL}}"
+         download="dictionary">Download</a>
+    </div>
+  </div>
+</div>
+
+
+

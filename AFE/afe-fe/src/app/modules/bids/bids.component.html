@@ -1,0 +1,50 @@
+<div class="p-3 bids-container"
+     [ngClass]="{ appear: appear, disappear: disappear}">
+  <div>
+    <span class="button-close" (click)="cancel()">x</span>
+  </div>
+
+  <h4 class="font-weight-normal">Bid history</h4>
+  <div class="text-primary-lighter py-3">
+    Bidders: <span class="text-primary mr-3">{{ countBiders }}</span>
+    Bids: <span class="text-primary d-inline-block">{{ bids?.length }}</span>
+  </div>
+
+  <div class="" style="overflow-y: auto">
+    <div *ngIf="loading" class="text-center">
+      <div class="text-primary loader-points_three" style="margin: 0 auto;"></div>
+      <div class="p-3"> Loading</div>
+    </div>
+
+    <table class="table table-striped w-100 table-light">
+      <tr *ngIf="bids && bids.length >= 1">
+        <th>Client</th>
+        <th>Bit amount</th>
+        <th>Date/time</th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let q of bids">
+        <td>{{ q.clientId}}</td>
+        <td>{{ q.amount | currency:'GBP'}}</td>
+        <td>{{ q.timestamp | date:'HH:mm dd.MM.yyyy'}}</td>
+        <th>
+         <!-- <button class="btn btn-primary"
+                  *ngIf="currentTime > product.endDate && product.productStatus == ProductStatus.FOR_SALE && product.productOwnerId === client.clientId && q.status == BidStatusType.SUBMITTED"
+                  [disabled]="disabledChoose ? true: null"
+                  (click)="submitBid(q.txId)">Accept
+          </button>-->
+
+          <button class="btn btn-link"
+                  *ngIf="q.status == BidStatusType.SUBMITTED &&  product.productStatus == ProductStatus.FOR_SALE && q.clientId === client.clientId"
+                  (click)="cancelBid(q.txId)">Cancel
+          </button>
+        </th>
+      </tr>
+    </table>
+  </div>
+
+  <div class="mt-2 text-right">
+    <button class="btn btn-link" (click)="cancel()">Close</button>
+  </div>
+</div>
+
